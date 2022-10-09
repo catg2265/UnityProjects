@@ -7,34 +7,37 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     #region values
-    public static int[] cRange = { 15000, 30000 };
-    public static int[] hRange = { 5000, 14000 };
-    public static int[] aRange = { 1000, 4500 };
-    public static int[] wRange = { 300, 900 };
-    public static int[] sRange = { 70, 250 };
-    public static int[] lRange = { 10, 60 };
+    
+    private static int[] cRange = { 15000, 30000 };
+    private static int[] hRange = { 5000, 14000 };
+    private static int[] aRange = { 1000, 4500 };
+    private static int[] wRange = { 300, 900 };
+    private static int[] sRange = { 70, 250 };
+    private static int[] lRange = { 10, 60 };
 
-    City br, gh, ce, ma, co, b;
+    private City _br, _gh, _ce, _ma, _co, _b;
 
-    List<City> cityList = new List<City>();
+    private List<City> _cityList = new List<City>();
 
-    [SerializeField] GameObject prefab;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private TextMeshPro shop;
+    
 
-    int currentDay = 0;
+    private int _currentDay = 0;
 
     public bool onTrigger = false;
     public string triggerName;
     #endregion
     void Start()
     {
-        br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
-        gh = new City("Ghetto", Instantiate(prefab, new Vector2(0, 2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
-        ce = new City("Central Park", Instantiate(prefab, new Vector2(5, 2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
-        ma = new City("Manhattan", Instantiate(prefab, new Vector2(-5, -2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
-        co = new City("Coney Island", Instantiate(prefab, new Vector2(0, -2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
-        b = new City("Brooklyn", Instantiate(prefab, new Vector2(5, -2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
-        cityList.Add(br); cityList.Add(gh); cityList.Add(ce); cityList.Add(ma); cityList.Add(co); cityList.Add(b);
-        foreach (City element in cityList)
+        _br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
+        _gh = new City("Ghetto", Instantiate(prefab, new Vector2(0, 2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
+        _ce = new City("Central Park", Instantiate(prefab, new Vector2(5, 2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
+        _ma = new City("Manhattan", Instantiate(prefab, new Vector2(-5, -2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
+        _co = new City("Coney Island", Instantiate(prefab, new Vector2(0, -2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
+        _b = new City("Brooklyn", Instantiate(prefab, new Vector2(5, -2), Quaternion.identity), RandValue(cRange), RandValue(hRange), RandValue(aRange), RandValue(wRange), RandValue(sRange), RandValue(lRange));
+        _cityList.Add(_br); _cityList.Add(_gh); _cityList.Add(_ce); _cityList.Add(_ma); _cityList.Add(_co); _cityList.Add(_b);
+        foreach (City element in _cityList)
         {
             Debug.Log(element.cityName + " Cocaine " + element.cocaine.ToString());
             Debug.Log(element.cityName + " Heroin " + element.heroin.ToString());
@@ -56,8 +59,8 @@ public class GameManager : MonoBehaviour
     {
         if (triggered)
         {
-            currentDay++;
-            foreach (City element in cityList)
+            _currentDay++;
+            foreach (City element in _cityList)
             {
                 if (element.cityName.Contains(name))
                 {
@@ -73,7 +76,7 @@ public class GameManager : MonoBehaviour
                     Debug.Log(element.cityName + " Weed " + element.weed.ToString());
                     Debug.Log(element.cityName + " Speed " + element.speed.ToString());
                     Debug.Log(element.cityName + " Ludes " + element.ludes.ToString());
-                    Debug.Log(currentDay.ToString());
+                    Debug.Log(_currentDay.ToString());
                 }
             }
         }
@@ -81,7 +84,7 @@ public class GameManager : MonoBehaviour
 }
 public class City
 {
-    public GameObject go;
+    private GameObject go;
     public string cityName;
     public int cocaine;
     public int heroin;
@@ -99,6 +102,40 @@ public class City
         weed = w;
         speed = s;
         ludes = l;
-        ob.GetComponentInChildren<TextMeshPro>().text = cityName;
+        go.GetComponentInChildren<TextMeshPro>().text = cityName;
+    }
+    public void DisplayValues(TextMeshPro textPrice, TextMeshPro textInv)
+    {
+        textPrice.text = "Do you want to buy, sell or jet?" +
+                         $"\n Cocaine = {cocaine}" +
+                         $"\n Heroin = {heroin}" +
+                         $"\n Acid = {acid}" +
+                         $"\n Weed = {weed}" +
+                         $"\n Speed = {speed}" +
+                         $"\n Ludes = {ludes}";
+        textInv.text = "Your Inventory" +
+                       $"\n Cocaine = {cocaine}" +
+                       $"\n Heroin = {heroin}" +
+                       $"\n Acid = {acid}" +
+                       $"\n Weed = {weed}" +
+                       $"\n Speed = {speed}" +
+                       $"\n Ludes = {ludes}";
+    }
+}
+public class Player
+{
+    public int cocaineAmount;
+    public int heroinAmount;
+    public int acidAmount;
+    public int weedAmount;
+    public int speedAmount;
+    public int ludesAmount;
+    public bool hasGun = false;
+    public int cash;
+    public int debt;
+    public Player(int startCash, int startDebt)
+    {
+        cash = startCash;
+        debt = startDebt;
     }
 }
