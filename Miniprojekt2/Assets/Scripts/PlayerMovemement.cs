@@ -43,7 +43,7 @@ public class PlayerMovemement : MonoBehaviour
     {
         if (canMove)
         {
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
         }
     }
 }

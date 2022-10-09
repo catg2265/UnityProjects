@@ -47,8 +47,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         RefreshValues(onTrigger, triggerName);
-        onTrigger = false;
-        triggerName = null;
     }
     int RandValue(int[] range)
     {
