@@ -1565,8 +1565,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 8705423644130419717, guid: b2e8ad00c45a68f43b209a8cd1b32bb4, type: 3}
-  msgBox: {fileID: 1615715906}
   UI: {fileID: 83152410}
+  shop: {fileID: 830350212}
+  inv: {fileID: 1166483071}
   onTrigger: 0
   triggerName: 
 --- !u!4 &1634692224
@@ -1667,7 +1668,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1793998801}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1634692223}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Jet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1793998801
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,8 +27,9 @@ public class GameManager : MonoBehaviour
     #endregion
     #region GameObjects
     [SerializeField] private GameObject prefab;
-    [SerializeField] private GameObject msgBox;
     [SerializeField] private GameObject UI;
+    [SerializeField] private TextMeshProUGUI shop;
+    [SerializeField] private TextMeshProUGUI inv;
     #endregion
     
     private int _currentDay = 0;
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
     #endregion
     void Start()
     {
+        Debug.Log(shop.name);
         UI.SetActive(false);
         _player = new Player(StartingCash, StartingDebt);
         _br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
@@ -83,12 +85,20 @@ public class GameManager : MonoBehaviour
                 element.weed = RandValue(_wRange);
                 element.speed = RandValue(_sRange);
                 element.ludes = RandValue(_lRange);
-                //shop.GetComponent<TextMeshPro>().text = element.DisplayPrice();
-                //inv.GetComponent<TextMeshPro>().text = _player.DisplayInventory();
+                shop.text = element.DisplayPrice();
+                inv.text = _player.DisplayInventory();
             }
         }
+
+        onTrigger = false;
     }
-    void EndGame()
+
+    public void Jet()
+    {
+        UI.SetActive(false);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovemement>().canMove = true;
+    }
+    public void EndGame()
     {
         Application.Quit();
     }
