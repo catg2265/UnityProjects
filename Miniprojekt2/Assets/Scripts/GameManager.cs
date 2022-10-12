@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     private static int[] _wRange = { 300, 900 };
     private static int[] _sRange = { 70, 250 };
     private static int[] _lRange = { 10, 60 };
+
+    private static int[] _percent = { 1, 100 };
+
     #endregion
     #region classValues
     private City _br, _gh, _ce, _ma, _co, _b;
@@ -32,8 +35,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GoodEnd;
     [SerializeField] private GameObject BadEnd;
     [SerializeField] private TextMeshProUGUI CurrentDayText;
-    [SerializeField] private TextMeshProUGUI shop;
-    [SerializeField] private TextMeshProUGUI inv;
+    [SerializeField] private TextMeshProUGUI shopText;
+    [SerializeField] private TextMeshProUGUI invText;
     #endregion
     
     private int _currentDay = 0;
@@ -79,6 +82,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    #region functions
     int RandValue(int[] range)
     {
         return Random.Range(range[0], range[1]);
@@ -95,14 +100,13 @@ public class GameManager : MonoBehaviour
                 element.weed = RandValue(_wRange);
                 element.speed = RandValue(_sRange);
                 element.ludes = RandValue(_lRange);
-                shop.text = element.DisplayPrice();
-                inv.text = _player.DisplayInventory();
+                shopText.text = element.DisplayPrice();
+                invText.text = _player.DisplayInventory();
             }
         }
 
         onTrigger = false;
     }
-
     public void Jet()
     {
         CityUI.SetActive(false);
@@ -119,6 +123,52 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
+    void GenerateCops()
+    {
+        //Chance to get chased by cops
+        //If player has a gun the player can fight the cops
+        //If player gets hit too much the player needs to be stitched together by a doctor
+        //Chance needs to increase the more drugs the player has bought and sold
+        if (RandValue(_percent) <= 5)
+        {
+            
+        }
+    }
+    void BuyCoat()
+    {
+        //When entering city, there's a chance the player can buy a new coat with more inventory space
+        if (RandValue(_percent) <= 10)
+        {
+            
+        }
+    }
+    void BuyGun()
+    {
+        //When entering city, there's a chance the player can buy a gun
+        if (RandValue(_percent) <= 10)
+        {
+            
+        }
+    }
+    void CheaperDrugs()
+    {
+        //There's a chance the drugs are being sold for very little
+        if (RandValue(_percent) <= 5)
+        {
+            
+        }
+    }
+    void ExpensiveDrugs()
+    {
+        //There's a chance the drugs are being sold for a lot more than usual
+        if (RandValue(_percent) <= 5)
+        {
+            
+        }
+    }
+    
+    #endregion
+    
 }
 public class City
 {
@@ -155,15 +205,11 @@ public class City
 }
 public class Player
 {
-    public int cocaineAmount = 0;
-    public int heroinAmount = 0;
-    public int acidAmount = 0;
-    public int weedAmount = 0;
-    public int speedAmount = 0;
-    public int ludesAmount = 0;
-    public bool hasGun = false;
+    
     public int cash;
     public int debt;
+    public Inventory inv = new Inventory();
+    public Bank bank = new Bank();
     public Player(int startCash, int startDebt)
     {
         cash = startCash;
@@ -172,14 +218,61 @@ public class Player
     public string DisplayInventory()
     {
         return "Inventory: \n" +
-                       $"\n Cocaine = {cocaineAmount}" +
-                       $"\n Heroin = {heroinAmount}" +
-                       $"\n Acid = {acidAmount}" +
-                       $"\n Weed = {weedAmount}" +
-                       $"\n Speed = {speedAmount}" +
-                       $"\n Ludes = {ludesAmount}" +
-                       $"\n HaveGun = {hasGun}" +
+                       $"\n Cocaine = {inv.cocaineAmount}" +
+                       $"\n Heroin = {inv.heroinAmount}" +
+                       $"\n Acid = {inv.acidAmount}" +
+                       $"\n Weed = {inv.weedAmount}" +
+                       $"\n Speed = {inv.speedAmount}" +
+                       $"\n Ludes = {inv.ludesAmount}" +
+                       $"\n HaveGun = {inv.hasGun}" +
                        $"\n Cash = {cash}" +
                        $"\n Debt = {debt}";
+    }
+}
+public class Inventory
+{
+    public int invSpace;
+    public int cocaineAmount;
+    public int heroinAmount;
+    public int acidAmount;
+    public int weedAmount;
+    public int speedAmount;
+    public int ludesAmount;
+    public bool hasGun;
+    public Inventory(int space = 100, int c = 0, int h = 0, int a = 0, int w = 0, int s = 0, int l = 0, bool g = false)
+    {
+        invSpace = space;
+        cocaineAmount = c;
+        heroinAmount = h;
+        acidAmount = a;
+        weedAmount = w;
+        speedAmount = s;
+        ludesAmount = l;
+        hasGun = g;
+    }
+}
+
+public class Bank
+{
+    public int money;
+    public Bank(int m = 0)
+    {
+        money = m;
+    }
+
+    public void Withdraw(int amount)
+    {
+        if (money - amount !< 0)
+        {
+            money = money - amount;
+        }
+        else
+        {
+            
+        }
+    }
+    public void Deposit(int amount)
+    {
+        money = money + amount;
     }
 }
