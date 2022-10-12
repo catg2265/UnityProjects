@@ -27,7 +27,11 @@ public class GameManager : MonoBehaviour
     #endregion
     #region GameObjects
     [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject CityUI;
     [SerializeField] private GameObject UI;
+    [SerializeField] private GameObject GoodEnd;
+    [SerializeField] private GameObject BadEnd;
+    [SerializeField] private TextMeshProUGUI CurrentDayText;
     [SerializeField] private TextMeshProUGUI shop;
     [SerializeField] private TextMeshProUGUI inv;
     #endregion
@@ -40,8 +44,9 @@ public class GameManager : MonoBehaviour
     #endregion
     void Start()
     {
-        Debug.Log(shop.name);
-        UI.SetActive(false);
+        Jet();
+        GoodEnd.SetActive(false);
+        BadEnd.SetActive(false);
         _player = new Player(StartingCash, StartingDebt);
         _br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _gh = new City("Ghetto", Instantiate(prefab, new Vector2(0, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
@@ -50,22 +55,28 @@ public class GameManager : MonoBehaviour
         _co = new City("Coney Island", Instantiate(prefab, new Vector2(0, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _b = new City("Brooklyn", Instantiate(prefab, new Vector2(5, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _cityList.Add(_br); _cityList.Add(_gh); _cityList.Add(_ce); _cityList.Add(_ma); _cityList.Add(_co); _cityList.Add(_b);
-        /*      foreach (City element in _cityList)
-              {
-                  Debug.Log(element.cityName + " Cocaine " + element.cocaine.ToString());
-                  Debug.Log(element.cityName + " Heroin " + element.heroin.ToString());
-                  Debug.Log(element.cityName + " Acid " + element.acid.ToString());
-                  Debug.Log(element.cityName + " Weed " + element.weed.ToString());
-                  Debug.Log(element.cityName + " Speed " + element.speed.ToString());
-                  Debug.Log(element.cityName + " Ludes " + element.ludes.ToString());
-              }*/
     }
     private void Update()
     {
-        if (onTrigger)
+        if (_currentDay != 30)
         {
-            UI.SetActive(true);
-            RefreshValues(triggerName);
+            if (onTrigger)
+            {
+                UI.SetActive(false);
+                CityUI.SetActive(true);
+                RefreshValues(triggerName);
+            }
+        }
+        else
+        {
+            if (_player.debt != 0)
+            {
+                BadEnd.SetActive(true);
+            }
+            else
+            {
+                GoodEnd.SetActive(true);
+            }
         }
     }
     int RandValue(int[] range)
@@ -74,7 +85,6 @@ public class GameManager : MonoBehaviour
     }
     void RefreshValues (string name)
     {
-        _currentDay++;
         foreach (City element in _cityList)
         {
             if (element.cityName.Contains(name))
@@ -95,12 +105,19 @@ public class GameManager : MonoBehaviour
 
     public void Jet()
     {
-        UI.SetActive(false);
+        CityUI.SetActive(false);
+        UI.SetActive(true);
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovemement>().canMove = true;
+        _currentDay++;
+        CurrentDayText.text = "Day: " + _currentDay.ToString();
     }
     public void EndGame()
     {
         Application.Quit();
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
 public class City
