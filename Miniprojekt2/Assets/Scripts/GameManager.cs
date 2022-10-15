@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     #region constValues
     private const int StartingCash = 2000;
     private const int StartingDebt = 5500;
+
+    public const string BuySellJet = "Do you want to buy, sell or jet? \n";
 
     private static int[] _cRange = { 15000, 30000 };
     private static int[] _hRange = { 5000, 14000 };
@@ -36,11 +39,26 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GoodEnd;
     [SerializeField] private GameObject BadEnd;
     [SerializeField] private GameObject BuyMenu;
+    
     [SerializeField] private TextMeshProUGUI CurrentDayText;
     [SerializeField] private TextMeshProUGUI shopText;
     [SerializeField] private TextMeshProUGUI invText;
     [SerializeField] private TextMeshProUGUI pricesText;
-    
+
+    [SerializeField] private TMP_InputField BuyCocaine;
+    [SerializeField] private TMP_InputField BuyHeroin;
+    [SerializeField] private TMP_InputField BuyAcid;
+    [SerializeField] private TMP_InputField BuyWeed;
+    [SerializeField] private TMP_InputField BuySpeed;
+    [SerializeField] private TMP_InputField BuyLudes;
+    /*
+    [SerializeField] private TMP_InputField SellCocaine;
+    [SerializeField] private TMP_InputField SellHeroin;
+    [SerializeField] private TMP_InputField SellAcid;
+    [SerializeField] private TMP_InputField SellWeed;
+    [SerializeField] private TMP_InputField SellSpeed;
+    [SerializeField] private TMP_InputField SellLudes;
+    */
     List<GameObject> BuySell = new List<GameObject>();
     #endregion
     
@@ -134,7 +152,7 @@ public class GameManager : MonoBehaviour
     {
         CityUI.SetActive(false);
         BuyMenu.SetActive(true);
-        pricesText.text = shopText.text;
+        pricesText.text = shopText.text.TrimStart(BuySellJet);
     }
     public void OpenSell()
     {
@@ -142,7 +160,12 @@ public class GameManager : MonoBehaviour
     }
     public void Buy()
     {
-        
+        Debug.Log(BuyCocaine);
+        Debug.Log(BuyHeroin);
+        Debug.Log(BuyAcid);
+        Debug.Log(BuyWeed);
+        Debug.Log(BuySpeed);
+        Debug.Log(BuyLudes);
     }
     public void Sell()
     {
@@ -183,7 +206,7 @@ public class City
     }
     public string DisplayPrice()
     {
-        return "Do you want to buy, sell or jet? \n" +
+        return GameManager.BuySellJet +
                $"\n Cocaine = {cocaine}" +
                $"\n Heroin = {heroin}" +
                $"\n Acid = {acid}" +
@@ -254,11 +277,12 @@ public class Bank
         }
         else
         {
-            
+            //missing! error message
         }
     }
     public void Deposit(int amount)
     {
         money = money + amount;
+        //missing! remove amount from player cash
     }
 }
