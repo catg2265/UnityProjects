@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject BadEnd;
     [SerializeField] private GameObject BuyMenu;
     [SerializeField] private GameObject SellMenu;
+    [SerializeField] private GameObject LoanShark;
     
     [SerializeField] private TextMeshProUGUI CurrentDayText;
     [SerializeField] private TextMeshProUGUI shopText;
@@ -47,7 +48,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI BuypricesText;
     [SerializeField] private TextMeshProUGUI SellpricesText;
     [SerializeField] private TextMeshProUGUI invAmountText;
+    [SerializeField] private TextMeshProUGUI CurrentDebt;
 
+    [SerializeField] private TMP_InputField Repay;
+    [SerializeField] private TMP_InputField Borrow;
     [SerializeField] private TMP_InputField BuyCocaine;
     [SerializeField] private TMP_InputField BuyHeroin;
     [SerializeField] private TMP_InputField BuyAcid;
@@ -327,7 +331,6 @@ public class Player
     public int cash;
     public int debt;
     public Inventory inv = new Inventory();
-    public Bank bank = new Bank();
     public Player(int startCash, int startDebt)
     {
         cash = startCash;
@@ -364,31 +367,6 @@ public class Inventory
         weedAmount = w;
         speedAmount = s;
         ludesAmount = l;
-    }
-}
-public class Bank
-{
-    public int money;
-    public Bank(int m = 0)
-    {
-        money = m;
-    }
-
-    public void Withdraw(int amount)
-    {
-        if (money - amount !< 0)
-        {
-            money = money - amount;
-        }
-        else
-        {
-            //missing! error message
-        }
-    }
-    public void Deposit(int amount)
-    {
-        money = money + amount;
-        //missing! remove amount from player cash
     }
 }
 #endregion
