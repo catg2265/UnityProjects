@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using UnityEngine.UIElements;
 using TMPro;
 using Unity.VisualScripting;
 
@@ -54,7 +57,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_InputField BuyWeed;
     [SerializeField] private TMP_InputField BuySpeed;
     [SerializeField] private TMP_InputField BuyLudes;
-    
+    private List<TMP_InputField> BuyInput = new List<TMP_InputField>();
+    private List<TMP_InputField> SellInput = new List<TMP_InputField>();
     [SerializeField] private TMP_InputField SellCocaine;
     [SerializeField] private TMP_InputField SellHeroin;
     [SerializeField] private TMP_InputField SellAcid;
@@ -62,13 +66,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_InputField SellSpeed;
     [SerializeField] private TMP_InputField SellLudes;
     
-    List<GameObject> BuySell = new List<GameObject>();
+    private List<GameObject> BuySell = new List<GameObject>();
     #endregion
     
     private int _currentDay = 0;
 
     public bool onTrigger = false;
     public string triggerName;
+
+    public int[] prices = new int[6]; 
     
     #endregion
     void Start()
@@ -87,6 +93,16 @@ public class GameManager : MonoBehaviour
         _b = new City("Brooklyn", Instantiate(prefab, new Vector2(5, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _cityList.Add(_br); _cityList.Add(_gh); _cityList.Add(_ce); _cityList.Add(_ma); _cityList.Add(_co); _cityList.Add(_b);
         BuySell.Add(BuyMenu); BuySell.Add(SellMenu);
+        BuyInput.Add(BuyCocaine); BuyInput.Add(BuyHeroin); BuyInput.Add(BuyAcid); BuyInput.Add(BuyWeed); BuyInput.Add(BuySpeed); BuyInput.Add(BuyLudes);
+        SellInput.Add(SellCocaine); SellInput.Add(SellHeroin); SellInput.Add(SellAcid); SellInput.Add(SellWeed); SellInput.Add(SellSpeed); SellInput.Add(SellLudes);
+        foreach (var element in BuyInput)
+        {
+            element.characterValidation = TMP_InputField.CharacterValidation.Integer;
+        }
+        foreach (var element in SellInput)
+        {
+            element.characterValidation = TMP_InputField.CharacterValidation.Integer;
+        }
     }
     private void Update()
     {
@@ -131,6 +147,12 @@ public class GameManager : MonoBehaviour
                 element.ludes = RandValue(_lRange);
                 shopText.text = element.DisplayPrice();
                 invText.text = _player.DisplayInventory();
+                prices[0] = element.cocaine;
+                prices[1] = element.heroin;
+                prices[2] = element.acid;
+                prices[3] = element.weed;
+                prices[4] = element.speed;
+                prices[5] = element.ludes;
             }
         }
 
@@ -166,11 +188,56 @@ public class GameManager : MonoBehaviour
     }
     public void Buy()
     {
-        
+        foreach (var element in BuyInput)
+        {
+            if (element.text == "")
+            {
+                element.text = "0";
+            }
+        }
+        if (_player.cash - int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] + 
+            int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5] < 0)
+        {
+            EditorUtility.DisplayDialog("You don't have enough", "You dont't have enough money for those drugs", "OK");
+        }
+        else
+        {
+            _player.cash -= int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] +
+                int.Parse(BuyAcid.text) * prices[2] +
+                int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] +
+                int.Parse(BuyLudes.text) * prices[5];
+            Return();
+        }
     }
     public void Sell()
     {
-        
+        foreach (var element in SellInput)
+        {
+            if (element.text == "")
+            {
+                element.text = "0";
+            }
+        }
+
+        if (int.Parse(SellCocaine.text) > _player.inv.cocaineAmount ||
+            int.Parse(SellHeroin.text) > _player.inv.heroinAmount ||
+            int.Parse(SellAcid.text) > _player.inv.acidAmount ||
+            int.Parse(SellWeed.text) > _player.inv.weedAmount || int.Parse(SellSpeed.text) > _player.inv.speedAmount ||
+            int.Parse(SellLudes.text) > _player.inv.ludesAmount)
+        {
+            EditorUtility.DisplayDialog("You don't have enough", "You dont't have enough drugs to do that sale", "OK");
+        }
+        else
+        {
+            _player.cash += int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] +
+                            int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5];
+            _player.inv.cocaineAmount -= int.Parse(BuyCocaine.text);
+            _player.inv.heroinAmount -= int.Parse(BuyHeroin.text);
+            _player.inv.acidAmount -= int.Parse(BuyAcid.text);
+            _player.inv.weedAmount -= int.Parse(BuyWeed.text);
+            _player.inv.speedAmount -= int.Parse(BuySpeed.text);
+            _player.inv.ludesAmount -= int.Parse(BuyLudes.text);
+        }
     }
     public void Return()
     {
