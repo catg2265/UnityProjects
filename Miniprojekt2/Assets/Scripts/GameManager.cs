@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject BadEnd;
     [SerializeField] private GameObject BuyMenu;
     [SerializeField] private GameObject SellMenu;
+    [SerializeField] private GameObject VisitLoanShark;
     [SerializeField] private GameObject LoanShark;
     
     [SerializeField] private TextMeshProUGUI CurrentDayText;
@@ -87,6 +88,8 @@ public class GameManager : MonoBehaviour
         BadEnd.SetActive(false);
         BuyMenu.SetActive(false);
         SellMenu.SetActive(false);
+        VisitLoanShark.SetActive(false);
+        LoanShark.SetActive(false);
         _player = new Player(StartingCash, StartingDebt);
         _br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _gh = new City("Ghetto", Instantiate(prefab, new Vector2(0, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
