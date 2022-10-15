@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
+//Remember to import System.Windows.Forms.dll to project
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -54,15 +55,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TMP_InputField Repay;
     [SerializeField] private TMP_InputField Borrow;
-    private List<TMP_InputField> _loanShark = new List<TMP_InputField>();
     [SerializeField] private TMP_InputField BuyCocaine;
     [SerializeField] private TMP_InputField BuyHeroin;
     [SerializeField] private TMP_InputField BuyAcid;
     [SerializeField] private TMP_InputField BuyWeed;
     [SerializeField] private TMP_InputField BuySpeed;
     [SerializeField] private TMP_InputField BuyLudes;
-    private List<TMP_InputField> BuyInput = new List<TMP_InputField>();
-    private List<TMP_InputField> SellInput = new List<TMP_InputField>();
     [SerializeField] private TMP_InputField SellCocaine;
     [SerializeField] private TMP_InputField SellHeroin;
     [SerializeField] private TMP_InputField SellAcid;
@@ -70,6 +68,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_InputField SellSpeed;
     [SerializeField] private TMP_InputField SellLudes;
     
+    private List<TMP_InputField> _loanShark = new List<TMP_InputField>();
+    private List<TMP_InputField> BuyInput = new List<TMP_InputField>();
+    private List<TMP_InputField> SellInput = new List<TMP_InputField>();
     private List<GameObject> BuySell = new List<GameObject>();
     #endregion
     
