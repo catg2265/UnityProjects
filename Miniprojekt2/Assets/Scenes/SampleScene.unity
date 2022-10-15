@@ -9580,7 +9580,8 @@ MonoBehaviour:
   CurrentDayText: {fileID: 946637483}
   shopText: {fileID: 830350212}
   invText: {fileID: 1166483071}
-  pricesText: {fileID: 172355150}
+  BuypricesText: {fileID: 172355150}
+  SellpricesText: {fileID: 1595212597}
   BuyCocaine: {fileID: 1227478448}
   BuyHeroin: {fileID: 309033682}
   BuyAcid: {fileID: 1458454396}
