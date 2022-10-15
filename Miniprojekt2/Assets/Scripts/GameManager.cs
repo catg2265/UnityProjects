@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
     }
     void ResetInput(List<TMP_InputField> Input)
     {
-        foreach (var element in BuyInput)
+        foreach (var element in Input)
         {
             element.text = "0";
         }
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
         int output = 0;
         for (int i = 0; i < 6; i++)
         {
-            output += int.Parse(BuyInput[i].text) * prices[i];
+            output += int.Parse(Input[i].text) * prices[i];
         }
         return output;
     }
