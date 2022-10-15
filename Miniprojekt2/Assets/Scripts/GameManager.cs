@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
     public bool onTrigger = false;
     public string triggerName;
 
+    public string lastCity;
+    
     public int[] prices = new int[6]; 
     
     #endregion
@@ -110,9 +112,13 @@ public class GameManager : MonoBehaviour
         {
             if (onTrigger)
             {
-                UI.SetActive(false);
-                CityUI.SetActive(true);
-                RefreshValues(triggerName);
+                if (lastCity != triggerName)
+                {
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovemement>().canMove = false;
+                    UI.SetActive(false);
+                    CityUI.SetActive(true);
+                    RefreshValues(triggerName);
+                }
             }
         }
         else
@@ -187,13 +193,7 @@ public class GameManager : MonoBehaviour
     }
     public void Buy()
     {
-        foreach (var element in BuyInput)
-        {
-            if (element.text == "")
-            {
-                element.text = "0";
-            }
-        }
+        SetEmptyToZero(BuyInput);
         if (_player.cash - (int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] + 
             int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5]) < 0)
         {
@@ -202,10 +202,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _player.cash -= int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] +
-                int.Parse(BuyAcid.text) * prices[2] +
-                int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] +
-                int.Parse(BuyLudes.text) * prices[5];
+            _player.cash -= CalculateBuy();
             _player.inv.cocaineAmount += int.Parse(BuyCocaine.text);
             _player.inv.heroinAmount += int.Parse(BuyHeroin.text);
             _player.inv.acidAmount += int.Parse(BuyAcid.text);
@@ -218,14 +215,7 @@ public class GameManager : MonoBehaviour
     }
     public void Sell()
     {
-        foreach (var element in SellInput)
-        {
-            if (element.text == "")
-            {
-                element.text = "0";
-            }
-        }
-
+        SetEmptyToZero(SellInput);
         if (int.Parse(SellCocaine.text) > _player.inv.cocaineAmount ||
             int.Parse(SellHeroin.text) > _player.inv.heroinAmount ||
             int.Parse(SellAcid.text) > _player.inv.acidAmount ||
@@ -237,14 +227,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _player.cash += int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] +
-                            int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5];
-            _player.inv.cocaineAmount -= int.Parse(BuyCocaine.text);
-            _player.inv.heroinAmount -= int.Parse(BuyHeroin.text);
-            _player.inv.acidAmount -= int.Parse(BuyAcid.text);
-            _player.inv.weedAmount -= int.Parse(BuyWeed.text);
-            _player.inv.speedAmount -= int.Parse(BuySpeed.text);
-            _player.inv.ludesAmount -= int.Parse(BuyLudes.text);
+            _player.cash += CalculateSell();
+            _player.inv.cocaineAmount -= int.Parse(SellCocaine.text);
+            _player.inv.heroinAmount -= int.Parse(SellHeroin.text);
+            _player.inv.acidAmount -= int.Parse(SellAcid.text);
+            _player.inv.weedAmount -= int.Parse(SellWeed.text);
+            _player.inv.speedAmount -= int.Parse(SellSpeed.text);
+            _player.inv.ludesAmount -= int.Parse(SellLudes.text);
             ResetSellInput();
             Return();
         }
@@ -258,7 +247,6 @@ public class GameManager : MonoBehaviour
         CityUI.SetActive(true);
         invText.text = _player.DisplayInventory();
     }
-
     void ResetBuyInput()
     {
         foreach (var element in BuyInput)
@@ -272,6 +260,34 @@ public class GameManager : MonoBehaviour
         {
             element.text = "0";
         }
+    }
+    void SetEmptyToZero(List<TMP_InputField> Input)
+    {
+        foreach (var element in Input)
+        {
+            if (element.text == "")
+            {
+                element.text = "0";
+            }
+        }
+    }
+    int CalculateBuy()
+    {
+        int output = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            output += int.Parse(BuyInput[i].text) * prices[i];
+        }
+        return output;
+    }
+    int CalculateSell()
+    {
+        int output = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            output += int.Parse(SellInput[i].text) * prices[i];
+        }
+        return output;
     }
     #endregion
     
