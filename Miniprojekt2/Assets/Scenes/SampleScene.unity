@@ -11445,6 +11445,7 @@ MonoBehaviour:
   SellpricesText: {fileID: 1595212597}
   invAmountText: {fileID: 1688950451}
   CurrentDebt: {fileID: 886541861}
+  FinalMoney: {fileID: 1188678795}
   Repay: {fileID: 1433628445}
   Borrow: {fileID: 694890646}
   BuyCocaine: {fileID: 1227478448}

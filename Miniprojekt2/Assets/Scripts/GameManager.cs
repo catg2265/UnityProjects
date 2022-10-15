@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SellpricesText;
     [SerializeField] private TextMeshProUGUI invAmountText;
     [SerializeField] private TextMeshProUGUI CurrentDebt;
+    [SerializeField] private TextMeshProUGUI FinalMoney;
 
     [SerializeField] private TMP_InputField Repay;
     [SerializeField] private TMP_InputField Borrow;
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 GoodEnd.SetActive(true);
+                FinalMoney.text = $"In total you earned: {_player.cash}" + "\n \n Do you want to play again?";
             }
         }
     }
