@@ -130,11 +130,19 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
-
+    public void OpenBuy()
+    {
+        CityUI.SetActive(false);
+        BuyMenu.SetActive(true);
+        pricesText.text = shopText.text;
+    }
+    public void OpenSell()
+    {
+        
+    }
     public void Buy()
     {
-        BuyMenu.SetActive(true);
-        UI.SetActive(false);
+        
     }
     public void Sell()
     {
@@ -146,7 +154,7 @@ public class GameManager : MonoBehaviour
         {
             element.SetActive(false);
         }
-        UI.SetActive(true);
+        CityUI.SetActive(true);
     }
     #endregion
     
