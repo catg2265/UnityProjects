@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI invText;
     [SerializeField] private TextMeshProUGUI BuypricesText;
     [SerializeField] private TextMeshProUGUI SellpricesText;
+    [SerializeField] private TextMeshProUGUI invAmountText;
 
     [SerializeField] private TMP_InputField BuyCocaine;
     [SerializeField] private TMP_InputField BuyHeroin;
@@ -70,7 +71,7 @@ public class GameManager : MonoBehaviour
     public bool onTrigger = false;
     public string triggerName;
 
-    public string lastCity;
+    private string lastCity;
     
     public int[] prices = new int[6]; 
     
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
                     UI.SetActive(false);
                     CityUI.SetActive(true);
                     RefreshValues(triggerName);
+                    lastCity = triggerName;
                 }
             }
         }
@@ -179,32 +181,38 @@ public class GameManager : MonoBehaviour
     {
         CityUI.SetActive(false);
         BuyMenu.SetActive(true);
-        BuypricesText.text = shopText.text.TrimStart(BuySellJet);
+        BuypricesText.text = shopText.text.TrimStart(BuySellJet) + $"\n \n Cash = {_player.cash}";
     }
     public void OpenSell()
     {
         CityUI.SetActive(false);
         SellMenu.SetActive(true);
         SellpricesText.text = shopText.text.TrimStart(BuySellJet);
+        invAmountText.text = $"\n {_player.inv.cocaineAmount}" +
+                        $"\n {_player.inv.heroinAmount}" +
+                        $"\n {_player.inv.acidAmount}" +
+                        $"\n {_player.inv.weedAmount}" +
+                        $"\n {_player.inv.speedAmount}" +
+                        $"\n {_player.inv.ludesAmount}";
     }
     public void Buy()
     {
         SetEmptyToZero(BuyInput);
-        if (_player.cash - CalculateBuy() < 0)
+        if (_player.cash - CalculateInput(BuyInput) < 0)
         {
             MessageBox.Show("You don't have enough money for those drugs!", "You don't have enough!", MessageBoxButtons.OK);
-            ResetBuyInput();
+            ResetInput(BuyInput);
         }
         else
         {
-            _player.cash -= CalculateBuy();
+            _player.cash -= CalculateInput(BuyInput);
             _player.inv.cocaineAmount += int.Parse(BuyCocaine.text);
             _player.inv.heroinAmount += int.Parse(BuyHeroin.text);
             _player.inv.acidAmount += int.Parse(BuyAcid.text);
             _player.inv.weedAmount += int.Parse(BuyWeed.text);
             _player.inv.speedAmount += int.Parse(BuySpeed.text);
             _player.inv.ludesAmount += int.Parse(BuyLudes.text);
-            ResetBuyInput();
+            ResetInput(BuyInput);
             Return();
         }
     }
@@ -214,22 +222,23 @@ public class GameManager : MonoBehaviour
         if (int.Parse(SellCocaine.text) > _player.inv.cocaineAmount ||
             int.Parse(SellHeroin.text) > _player.inv.heroinAmount ||
             int.Parse(SellAcid.text) > _player.inv.acidAmount ||
-            int.Parse(SellWeed.text) > _player.inv.weedAmount || int.Parse(SellSpeed.text) > _player.inv.speedAmount ||
+            int.Parse(SellWeed.text) > _player.inv.weedAmount || 
+            int.Parse(SellSpeed.text) > _player.inv.speedAmount ||
             int.Parse(SellLudes.text) > _player.inv.ludesAmount)
         {
             MessageBox.Show("You don't have enough drugs for that sale!", "You don't have enough!", MessageBoxButtons.OK);
-            ResetSellInput();
+            ResetInput(SellInput);
         }
         else
         {
-            _player.cash += CalculateSell();
+            _player.cash += CalculateInput(SellInput);
             _player.inv.cocaineAmount -= int.Parse(SellCocaine.text);
             _player.inv.heroinAmount -= int.Parse(SellHeroin.text);
             _player.inv.acidAmount -= int.Parse(SellAcid.text);
             _player.inv.weedAmount -= int.Parse(SellWeed.text);
             _player.inv.speedAmount -= int.Parse(SellSpeed.text);
             _player.inv.ludesAmount -= int.Parse(SellLudes.text);
-            ResetSellInput();
+            ResetInput(SellInput);
             Return();
         }
     }
@@ -242,16 +251,9 @@ public class GameManager : MonoBehaviour
         CityUI.SetActive(true);
         invText.text = _player.DisplayInventory();
     }
-    void ResetBuyInput()
+    void ResetInput(List<TMP_InputField> Input)
     {
         foreach (var element in BuyInput)
-        {
-            element.text = "0";
-        }
-    }
-    void ResetSellInput()
-    {
-        foreach (var element in SellInput)
         {
             element.text = "0";
         }
@@ -266,21 +268,12 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    int CalculateBuy()
+    int CalculateInput(List<TMP_InputField> Input)
     {
         int output = 0;
         for (int i = 0; i < 6; i++)
         {
             output += int.Parse(BuyInput[i].text) * prices[i];
-        }
-        return output;
-    }
-    int CalculateSell()
-    {
-        int output = 0;
-        for (int i = 0; i < 6; i++)
-        {
-            output += int.Parse(SellInput[i].text) * prices[i];
         }
         return output;
     }
