@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private const int StartingDebt = 5500;
 
     public const string BuySellJet = "Do you want to buy, sell or jet? \n";
+    public const string showInventory = "Inventory: \n";
 
     private static int[] _cRange = { 15000, 30000 };
     private static int[] _hRange = { 5000, 14000 };
@@ -44,7 +45,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CurrentDayText;
     [SerializeField] private TextMeshProUGUI shopText;
     [SerializeField] private TextMeshProUGUI invText;
-    [SerializeField] private TextMeshProUGUI pricesText;
+    [SerializeField] private TextMeshProUGUI BuypricesText;
+    [SerializeField] private TextMeshProUGUI SellpricesText;
 
     [SerializeField] private TMP_InputField BuyCocaine;
     [SerializeField] private TMP_InputField BuyHeroin;
@@ -75,6 +77,7 @@ public class GameManager : MonoBehaviour
         GoodEnd.SetActive(false);
         BadEnd.SetActive(false);
         BuyMenu.SetActive(false);
+        SellMenu.SetActive(false);
         _player = new Player(StartingCash, StartingDebt);
         _br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _gh = new City("Ghetto", Instantiate(prefab, new Vector2(0, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
@@ -83,7 +86,7 @@ public class GameManager : MonoBehaviour
         _co = new City("Coney Island", Instantiate(prefab, new Vector2(0, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _b = new City("Brooklyn", Instantiate(prefab, new Vector2(5, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _cityList.Add(_br); _cityList.Add(_gh); _cityList.Add(_ce); _cityList.Add(_ma); _cityList.Add(_co); _cityList.Add(_b);
-        BuySell.Add(BuyMenu);
+        BuySell.Add(BuyMenu); BuySell.Add(SellMenu);
     }
     private void Update()
     {
@@ -153,11 +156,13 @@ public class GameManager : MonoBehaviour
     {
         CityUI.SetActive(false);
         BuyMenu.SetActive(true);
-        pricesText.text = shopText.text.TrimStart(BuySellJet);
+        BuypricesText.text = shopText.text.TrimStart(BuySellJet);
     }
     public void OpenSell()
     {
-        
+        CityUI.SetActive(false);
+        SellMenu.SetActive(true);
+        SellpricesText.text = shopText.text.TrimStart(BuySellJet);
     }
     public void Buy()
     {
@@ -225,7 +230,7 @@ public class Player
     }
     public string DisplayInventory()
     {
-        return "Inventory: \n" +
+        return GameManager.showInventory +
                        $"\n Cocaine = {inv.cocaineAmount}" +
                        $"\n Heroin = {inv.heroinAmount}" +
                        $"\n Acid = {inv.acidAmount}" +
