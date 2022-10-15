@@ -123,50 +123,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
-    void GenerateCops()
-    {
-        //Chance to get chased by cops
-        //If player has a gun the player can fight the cops
-        //If player gets hit too much the player needs to be stitched together by a doctor
-        //Chance needs to increase the more drugs the player has bought and sold
-        if (RandValue(_percent) <= 5)
-        {
-            
-        }
-    }
-    void BuyCoat()
-    {
-        //When entering city, there's a chance the player can buy a new coat with more inventory space
-        if (RandValue(_percent) <= 10)
-        {
-            
-        }
-    }
-    void BuyGun()
-    {
-        //When entering city, there's a chance the player can buy a gun
-        if (RandValue(_percent) <= 10)
-        {
-            
-        }
-    }
-    void CheaperDrugs()
-    {
-        //There's a chance the drugs are being sold for very little
-        if (RandValue(_percent) <= 5)
-        {
-            
-        }
-    }
-    void ExpensiveDrugs()
-    {
-        //There's a chance the drugs are being sold for a lot more than usual
-        if (RandValue(_percent) <= 5)
-        {
-            
-        }
-    }
-    
+
     #endregion
     
 }
@@ -238,8 +195,7 @@ public class Inventory
     public int weedAmount;
     public int speedAmount;
     public int ludesAmount;
-    public bool hasGun;
-    public Inventory(int space = 100, int c = 0, int h = 0, int a = 0, int w = 0, int s = 0, int l = 0, bool g = false)
+    public Inventory(int space = 100, int c = 0, int h = 0, int a = 0, int w = 0, int s = 0, int l = 0)
     {
         invSpace = space;
         cocaineAmount = c;
@@ -248,7 +204,6 @@ public class Inventory
         weedAmount = w;
         speedAmount = s;
         ludesAmount = l;
-        hasGun = g;
     }
 }
 
