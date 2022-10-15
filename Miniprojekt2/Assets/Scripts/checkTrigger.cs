@@ -9,6 +9,5 @@ public class checkTrigger : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().onTrigger = true;
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().triggerName = GetComponentInChildren<TextMeshPro>().text;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovemement>().canMove = false;
     }
 }
