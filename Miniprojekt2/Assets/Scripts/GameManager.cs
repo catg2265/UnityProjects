@@ -189,8 +189,36 @@ public class GameManager : MonoBehaviour
     public void LoanSharkFinish()
     {
         SetEmptyToZero(_loanShark);
-        _player.cash -= int.Parse(_loanShark[0].text);
-        _player.cash += int.Parse(_loanShark[1].text);
+        if (int.Parse(_loanShark[0].text) < 0 || int.Parse(_loanShark[1].text) < 0)
+        {
+            MessageBox.Show("You can't repay or borrow 0!", "Warning!", MessageBoxButtons.OK);
+        }
+        else
+        {
+            if (_player.debt - int.Parse(_loanShark[0].text) < 0)
+            {
+                _player.cash -= _player.debt;
+                _player.debt = 0;
+                _player.cash += int.Parse(_loanShark[1].text);
+                _player.debt += int.Parse(_loanShark[1].text);
+                invText.text = _player.DisplayInventory();
+                LoanShark.SetActive(false);
+            }
+            else if (int.Parse(_loanShark[0].text) > _player.cash)
+            {
+                MessageBox.Show("You don't have enough cash!", "Warning!", MessageBoxButtons.OK);
+            }
+            else
+            {
+                _player.cash -= int.Parse(_loanShark[0].text);
+                _player.debt -= int.Parse(_loanShark[0].text);
+                _player.cash += int.Parse(_loanShark[1].text);
+                _player.debt += int.Parse(_loanShark[1].text);
+                invText.text = _player.DisplayInventory();
+                LoanShark.SetActive(false);
+            }
+            
+        }
     }
 
     #region MenuFunctions
@@ -236,7 +264,7 @@ public class GameManager : MonoBehaviour
         SetEmptyToZero(BuyInput);
         if (_player.cash - CalculateInput(BuyInput) < 0)
         {
-            MessageBox.Show("You don't have enough money for those drugs!", "You don't have enough!", MessageBoxButtons.OK);
+            MessageBox.Show("You don't have enough money for those drugs!", "Warning!", MessageBoxButtons.OK);
             ResetInput(BuyInput);
         }
         else
@@ -262,7 +290,7 @@ public class GameManager : MonoBehaviour
             int.Parse(SellSpeed.text) > _player.inv.speedAmount ||
             int.Parse(SellLudes.text) > _player.inv.ludesAmount)
         {
-            MessageBox.Show("You don't have enough drugs for that sale!", "You don't have enough!", MessageBoxButtons.OK);
+            MessageBox.Show("You don't have enough drugs for that sale!", "Warning!", MessageBoxButtons.OK);
             ResetInput(SellInput);
         }
         else

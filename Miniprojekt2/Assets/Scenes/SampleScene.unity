@@ -2137,7 +2137,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1634692223}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: LoanSharkFinish
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11437,7 +11437,7 @@ MonoBehaviour:
   BuyMenu: {fileID: 512947846}
   SellMenu: {fileID: 1178065462}
   VisitLoanShark: {fileID: 2108391365}
-  LoanShark: {fileID: 50723724}
+  LoanShark: {fileID: 540042542}
   CurrentDayText: {fileID: 946637483}
   shopText: {fileID: 830350212}
   invText: {fileID: 1166483071}
@@ -13268,10 +13268,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1634692223}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: EndGame
-        m_Mode: 1
+      - m_Target: {fileID: 2108391365}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14670,7 +14670,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1634692223}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: LoanSharkOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
