@@ -278,7 +278,6 @@ public class GameManager : MonoBehaviour
         return output;
     }
     #endregion
-    
 }
 public class City
 {
