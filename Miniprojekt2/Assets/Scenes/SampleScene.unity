@@ -3087,8 +3087,8 @@ MonoBehaviour:
   GoodEnd: {fileID: 444831261}
   BadEnd: {fileID: 89955902}
   CurrentDayText: {fileID: 946637483}
-  shop: {fileID: 830350212}
-  inv: {fileID: 1166483071}
+  shopText: {fileID: 830350212}
+  invText: {fileID: 1166483071}
   onTrigger: 0
   triggerName: 
 --- !u!4 &1634692224
