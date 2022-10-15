@@ -1,13 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
+using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
-using UnityEngine.UIElements;
 using TMPro;
 using Unity.VisualScripting;
+using Application = UnityEngine.Application;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +15,7 @@ public class GameManager : MonoBehaviour
     private const int StartingDebt = 5500;
 
     public const string BuySellJet = "Do you want to buy, sell or jet? \n";
-    public const string showInventory = "Inventory: \n";
+    public const string ShowInventory = "Inventory: \n";
 
     private static int[] _cRange = { 15000, 30000 };
     private static int[] _hRange = { 5000, 14000 };
@@ -194,10 +191,9 @@ public class GameManager : MonoBehaviour
     public void Buy()
     {
         SetEmptyToZero(BuyInput);
-        if (_player.cash - (int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] + 
-            int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5]) < 0)
+        if (_player.cash - CalculateBuy() < 0)
         {
-            EditorUtility.DisplayDialog("You don't have enough", "You dont't have enough money for those drugs", "OK");
+            MessageBox.Show("You don't have enough money for those drugs!", "You don't have enough!", MessageBoxButtons.OK);
             ResetBuyInput();
         }
         else
@@ -222,7 +218,7 @@ public class GameManager : MonoBehaviour
             int.Parse(SellWeed.text) > _player.inv.weedAmount || int.Parse(SellSpeed.text) > _player.inv.speedAmount ||
             int.Parse(SellLudes.text) > _player.inv.ludesAmount)
         {
-            EditorUtility.DisplayDialog("You don't have enough", "You dont't have enough drugs to do that sale", "OK");
+            MessageBox.Show("You don't have enough drugs for that sale!", "You don't have enough!", MessageBoxButtons.OK);
             ResetSellInput();
         }
         else
@@ -339,7 +335,7 @@ public class Player
     }
     public string DisplayInventory()
     {
-        return GameManager.showInventory +
+        return GameManager.ShowInventory +
                        $"\n Cocaine = {inv.cocaineAmount}" +
                        $"\n Heroin = {inv.heroinAmount}" +
                        $"\n Acid = {inv.acidAmount}" +
