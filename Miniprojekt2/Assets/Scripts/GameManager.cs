@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
-using Application = UnityEngine.Application;
 
 public class GameManager : MonoBehaviour
 {
@@ -170,7 +169,7 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame()
     {
-        Application.Quit();
+        UnityEngine.Application.Quit();
     }
     public void StartGame()
     {
