@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TMP_InputField Repay;
     [SerializeField] private TMP_InputField Borrow;
+    private List<TMP_InputField> _loanShark = new List<TMP_InputField>();
     [SerializeField] private TMP_InputField BuyCocaine;
     [SerializeField] private TMP_InputField BuyHeroin;
     [SerializeField] private TMP_InputField BuyAcid;
@@ -101,14 +102,10 @@ public class GameManager : MonoBehaviour
         BuySell.Add(BuyMenu); BuySell.Add(SellMenu);
         BuyInput.Add(BuyCocaine); BuyInput.Add(BuyHeroin); BuyInput.Add(BuyAcid); BuyInput.Add(BuyWeed); BuyInput.Add(BuySpeed); BuyInput.Add(BuyLudes);
         SellInput.Add(SellCocaine); SellInput.Add(SellHeroin); SellInput.Add(SellAcid); SellInput.Add(SellWeed); SellInput.Add(SellSpeed); SellInput.Add(SellLudes);
-        foreach (var element in BuyInput)
-        {
-            element.characterValidation = TMP_InputField.CharacterValidation.Integer;
-        }
-        foreach (var element in SellInput)
-        {
-            element.characterValidation = TMP_InputField.CharacterValidation.Integer;
-        }
+        _loanShark.Add(Repay); _loanShark.Add(Borrow);
+        SetValidationInt(BuyInput);
+        SetValidationInt(SellInput);
+        SetValidationInt(_loanShark);
     }
     private void Update()
     {
@@ -165,10 +162,37 @@ public class GameManager : MonoBehaviour
                 prices[4] = element.speed;
                 prices[5] = element.ludes;
             }
+            if (name.Contains(_br.cityName) && element.cityName.Contains(name))
+            {
+                LoanSharkActive();
+            }
         }
         onTrigger = false;
     }
-    
+    void SetValidationInt(List<TMP_InputField> input)
+    {
+        foreach (var element in input)
+        {
+            element.characterValidation = TMP_InputField.CharacterValidation.Integer;
+        }
+    }
+    void LoanSharkActive()
+    {
+        VisitLoanShark.SetActive(true);
+    }
+    public void LoanSharkOpen()
+    {
+        VisitLoanShark.SetActive(false);
+        LoanShark.SetActive(true);
+        CurrentDebt.text = $"Current debt: {_player.debt}";
+    }
+    public void LoanSharkFinish()
+    {
+        SetEmptyToZero(_loanShark);
+        _player.cash -= int.Parse(_loanShark[0].text);
+        _player.cash += int.Parse(_loanShark[1].text);
+    }
+
     #region MenuFunctions
     public void Jet()
     {
