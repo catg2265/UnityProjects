@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GoodEnd;
     [SerializeField] private GameObject BadEnd;
     [SerializeField] private GameObject BuyMenu;
+    [SerializeField] private GameObject SellMenu;
     
     [SerializeField] private TextMeshProUGUI CurrentDayText;
     [SerializeField] private TextMeshProUGUI shopText;
@@ -51,14 +52,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_InputField BuyWeed;
     [SerializeField] private TMP_InputField BuySpeed;
     [SerializeField] private TMP_InputField BuyLudes;
-    /*
+    
     [SerializeField] private TMP_InputField SellCocaine;
     [SerializeField] private TMP_InputField SellHeroin;
     [SerializeField] private TMP_InputField SellAcid;
     [SerializeField] private TMP_InputField SellWeed;
     [SerializeField] private TMP_InputField SellSpeed;
     [SerializeField] private TMP_InputField SellLudes;
-    */
+    
     List<GameObject> BuySell = new List<GameObject>();
     #endregion
     
@@ -160,12 +161,7 @@ public class GameManager : MonoBehaviour
     }
     public void Buy()
     {
-        Debug.Log(BuyCocaine);
-        Debug.Log(BuyHeroin);
-        Debug.Log(BuyAcid);
-        Debug.Log(BuyWeed);
-        Debug.Log(BuySpeed);
-        Debug.Log(BuyLudes);
+        
     }
     public void Sell()
     {
