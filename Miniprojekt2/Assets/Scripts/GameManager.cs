@@ -155,7 +155,6 @@ public class GameManager : MonoBehaviour
                 prices[5] = element.ludes;
             }
         }
-
         onTrigger = false;
     }
     public void Jet()
@@ -195,10 +194,11 @@ public class GameManager : MonoBehaviour
                 element.text = "0";
             }
         }
-        if (_player.cash - int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] + 
-            int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5] < 0)
+        if (_player.cash - (int.Parse(BuyCocaine.text) * prices[0] + int.Parse(BuyHeroin.text) * prices[1] + int.Parse(BuyAcid.text) * prices[2] + 
+            int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] + int.Parse(BuyLudes.text) * prices[5]) < 0)
         {
             EditorUtility.DisplayDialog("You don't have enough", "You dont't have enough money for those drugs", "OK");
+            ResetBuyInput();
         }
         else
         {
@@ -206,6 +206,13 @@ public class GameManager : MonoBehaviour
                 int.Parse(BuyAcid.text) * prices[2] +
                 int.Parse(BuyWeed.text) * prices[3] + int.Parse(BuySpeed.text) * prices[4] +
                 int.Parse(BuyLudes.text) * prices[5];
+            _player.inv.cocaineAmount += int.Parse(BuyCocaine.text);
+            _player.inv.heroinAmount += int.Parse(BuyHeroin.text);
+            _player.inv.acidAmount += int.Parse(BuyAcid.text);
+            _player.inv.weedAmount += int.Parse(BuyWeed.text);
+            _player.inv.speedAmount += int.Parse(BuySpeed.text);
+            _player.inv.ludesAmount += int.Parse(BuyLudes.text);
+            ResetBuyInput();
             Return();
         }
     }
@@ -226,6 +233,7 @@ public class GameManager : MonoBehaviour
             int.Parse(SellLudes.text) > _player.inv.ludesAmount)
         {
             EditorUtility.DisplayDialog("You don't have enough", "You dont't have enough drugs to do that sale", "OK");
+            ResetSellInput();
         }
         else
         {
@@ -237,6 +245,8 @@ public class GameManager : MonoBehaviour
             _player.inv.weedAmount -= int.Parse(BuyWeed.text);
             _player.inv.speedAmount -= int.Parse(BuySpeed.text);
             _player.inv.ludesAmount -= int.Parse(BuyLudes.text);
+            ResetSellInput();
+            Return();
         }
     }
     public void Return()
@@ -246,6 +256,22 @@ public class GameManager : MonoBehaviour
             element.SetActive(false);
         }
         CityUI.SetActive(true);
+        invText.text = _player.DisplayInventory();
+    }
+
+    void ResetBuyInput()
+    {
+        foreach (var element in BuyInput)
+        {
+            element.text = "0";
+        }
+    }
+    void ResetSellInput()
+    {
+        foreach (var element in SellInput)
+        {
+            element.text = "0";
+        }
     }
     #endregion
     
