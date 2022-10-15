@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -34,9 +35,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject UI;
     [SerializeField] private GameObject GoodEnd;
     [SerializeField] private GameObject BadEnd;
+    [SerializeField] private GameObject BuyMenu;
     [SerializeField] private TextMeshProUGUI CurrentDayText;
     [SerializeField] private TextMeshProUGUI shopText;
     [SerializeField] private TextMeshProUGUI invText;
+    [SerializeField] private TextMeshProUGUI pricesText;
+    
+    List<GameObject> BuySell = new List<GameObject>();
     #endregion
     
     private int _currentDay = 0;
@@ -50,6 +55,7 @@ public class GameManager : MonoBehaviour
         Jet();
         GoodEnd.SetActive(false);
         BadEnd.SetActive(false);
+        BuyMenu.SetActive(false);
         _player = new Player(StartingCash, StartingDebt);
         _br = new City("Bronx", Instantiate(prefab, new Vector2(-5, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _gh = new City("Ghetto", Instantiate(prefab, new Vector2(0, 2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
@@ -58,6 +64,7 @@ public class GameManager : MonoBehaviour
         _co = new City("Coney Island", Instantiate(prefab, new Vector2(0, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _b = new City("Brooklyn", Instantiate(prefab, new Vector2(5, -2), Quaternion.identity), RandValue(_cRange), RandValue(_hRange), RandValue(_aRange), RandValue(_wRange), RandValue(_sRange), RandValue(_lRange));
         _cityList.Add(_br); _cityList.Add(_gh); _cityList.Add(_ce); _cityList.Add(_ma); _cityList.Add(_co); _cityList.Add(_b);
+        BuySell.Add(BuyMenu);
     }
     private void Update()
     {
@@ -124,6 +131,23 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
+    public void Buy()
+    {
+        BuyMenu.SetActive(true);
+        UI.SetActive(false);
+    }
+    public void Sell()
+    {
+        
+    }
+    public void Return()
+    {
+        foreach (GameObject element in BuySell)
+        {
+            element.SetActive(false);
+        }
+        UI.SetActive(true);
+    }
     #endregion
     
 }
@@ -181,7 +205,6 @@ public class Player
                        $"\n Weed = {inv.weedAmount}" +
                        $"\n Speed = {inv.speedAmount}" +
                        $"\n Ludes = {inv.ludesAmount}" +
-                       $"\n HaveGun = {inv.hasGun}" +
                        $"\n Cash = {cash}" +
                        $"\n Debt = {debt}";
     }
