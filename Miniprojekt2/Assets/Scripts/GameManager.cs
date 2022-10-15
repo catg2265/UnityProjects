@@ -161,6 +161,8 @@ public class GameManager : MonoBehaviour
         }
         onTrigger = false;
     }
+    
+    #region MenuFunctions
     public void Jet()
     {
         CityUI.SetActive(false);
@@ -177,6 +179,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
+    #endregion
+    
+    #region BuySellFunctions
     public void OpenBuy()
     {
         CityUI.SetActive(false);
@@ -278,7 +283,11 @@ public class GameManager : MonoBehaviour
         return output;
     }
     #endregion
+    
+    #endregion
 }
+
+#region Classes
 public class City
 {
     private GameObject go;
@@ -357,7 +366,6 @@ public class Inventory
         ludesAmount = l;
     }
 }
-
 public class Bank
 {
     public int money;
@@ -383,3 +391,4 @@ public class Bank
         //missing! remove amount from player cash
     }
 }
+#endregion
