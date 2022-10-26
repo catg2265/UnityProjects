@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     #region constValues
     private const int StartingCash = 2000;
     private const int StartingDebt = 5500;
+    private const int DebtInterest = 10;
 
     public const string BuySellJet = "Do you want to buy, sell or jet? \n";
     public const string ShowInventory = "Inventory: \n";
@@ -86,7 +87,6 @@ public class GameManager : MonoBehaviour
     #endregion
     void Start()
     {
-        Jet();
         GoodEnd.SetActive(false);
         BadEnd.SetActive(false);
         BuyMenu.SetActive(false);
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
         SetValidationInt(BuyInput);
         SetValidationInt(SellInput);
         SetValidationInt(_loanShark);
+        Jet();
     }
     private void Update()
     {
@@ -232,6 +233,10 @@ public class GameManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovemement>().canMove = true;
         _currentDay++;
         CurrentDayText.text = "Day: " + _currentDay.ToString();
+        if (_currentDay > 1)
+        {
+            _player.debt += (_player.debt / 100) * DebtInterest; 
+        }
     }
     public void EndGame()
     {
