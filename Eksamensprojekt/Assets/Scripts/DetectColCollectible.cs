@@ -5,7 +5,7 @@ using UnityEngine;
 public class DetectColCollectible : MonoBehaviour
 {
     private GameManager gm;
-
+    [SerializeField] private int CollectibleType = 0;
     private void Start()
     {
         gm = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
@@ -18,7 +18,15 @@ public class DetectColCollectible : MonoBehaviour
             {
                 gm.FirstCol = true;
             }
-            
+
+            if (CollectibleType == 0)
+            {
+                gm.player.collectible1Count++;
+            }
+            else if (CollectibleType == 1)
+            {
+                gm.player.collectible2Count++;
+            }
         }
     }
 }

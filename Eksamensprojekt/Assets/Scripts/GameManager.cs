@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     private Collectibles[] CollectiblesArray = new Collectibles[3];
 
-    private PlayerScore player;
+    public PlayerScore player;
 
     [SerializeField] private bool UseGameObjects = true;
     public bool FirstCol = false;
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             scoresTextList[1].text = highText + PlayerPrefs.GetInt("HighScore", 0);
             collectibleTextList[0].text = "0";
             yield return new WaitForSeconds(StartDelay);
-            
+            //Instantiate first round
         }
     }
 
@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour
             //Start spawning at increasing rate
             //Start increasing difficulty (add more obstacles)
         }
+    }
+
+    private int RandRotation()
+    {
+        return Random.Range(0, 359);
     }
     public void StartGame()
     {
