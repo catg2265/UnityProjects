@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7808208475403601536}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,3 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941a2bf30ecd6524c9c2b1d8a9dbe748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialSpawnRate: 1
+  StartDelay: 1
+  scoresTextList: []
+  collectibleTextList: []
+  Obstacle: {fileID: 0}
+  Collectible1: {fileID: 0}
+  Collectible2: {fileID: 0}
+  UseGameObjects: 1
+  FirstCol: 0
