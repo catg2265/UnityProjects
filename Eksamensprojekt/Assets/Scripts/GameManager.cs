@@ -57,24 +57,27 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.totalScore > PlayerPrefs.GetInt("HighScore", 0))
+        if (UseGameObjects)
         {
-            PlayerPrefs.SetInt("HighScore", player.totalScore);
-        }
-        if (UseGameObjects && FirstCol)
-        {
-            player.totalScore = (player.collectible1Count * collectible1.points) +
-                                (player.collectible2Count * collectible2.points);
-            scoresTextList[0].text = scoreText + player.totalScore.ToString();
-            scoresTextList[1].text = highText + PlayerPrefs.GetInt("HighScore", 0);
-            //Start spawning at increasing rate
-            //Start increasing difficulty (add more obstacles)
+            if (player.totalScore > PlayerPrefs.GetInt("HighScore", 0))
+            {
+                PlayerPrefs.SetInt("HighScore", player.totalScore);
+            }
+            if (UseGameObjects && FirstCol)
+            {
+                player.totalScore = (player.collectible1Count * collectible1.points) +
+                                    (player.collectible2Count * collectible2.points);
+                scoresTextList[0].text = scoreText + player.totalScore.ToString();
+                scoresTextList[1].text = highText + PlayerPrefs.GetInt("HighScore", 0);
+                //Start spawning at increasing rate
+                //Start increasing difficulty (add more obstacles)
+            }
         }
     }
 
-    private int RandRotation()
+    private Vector3 RandRotation()
     {
-        return Random.Range(0, 359);
+        return new Vector3(0,Random.Range(0, 359),0) ;
     }
     public void StartGame()
     {

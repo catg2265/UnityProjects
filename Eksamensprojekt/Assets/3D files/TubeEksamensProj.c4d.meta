@@ -25,6 +25,5 @@ ScriptedImporter:
     _logWarnings: 1
     _logErrors: 1
     _showDialogForRelativeTexturePaths: 1
-  _useGlobalSettings: 1
-  _boneSelection:
-  - 
+  _useGlobalSettings: 0
+  _boneSelection: []
