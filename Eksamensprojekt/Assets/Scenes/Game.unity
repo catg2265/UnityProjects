@@ -1452,6 +1452,7 @@ Animation:
   m_Animation: {fileID: 7400000, guid: 8a1e374463077a444ab559d7f18bc7f3, type: 2}
   m_Animations:
   - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 7400000, guid: 8a1e374463077a444ab559d7f18bc7f3, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
@@ -1483,7 +1484,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7353522675976812520}
   m_LocalRotation: {x: 0.7071068, y: 3.140185e-16, z: 3.140185e-16, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: -30, z: 0}
+  m_LocalPosition: {x: 0, y: -16.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1517,7 +1518,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279983730421807274}
-  m_Mesh: {fileID: -2536508119796320013, guid: 3456a82067d496c4fab7f3089572c860, type: 3}
+  m_Mesh: {fileID: -7067476996320840341, guid: 3456a82067d496c4fab7f3089572c860, type: 3}
 --- !u!1 &7353522675976812520
 GameObject:
   m_ObjectHideFlags: 0
