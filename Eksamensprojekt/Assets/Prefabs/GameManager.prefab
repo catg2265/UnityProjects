@@ -45,11 +45,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialSpawnRate: 1
-  StartDelay: 1
   scoresTextList: []
   collectibleTextList: []
   Obstacle: {fileID: 0}
   Collectible1: {fileID: 0}
   Collectible2: {fileID: 0}
   UseGameObjects: 1
-  FirstCol: 0
+  GameStart: 0
+  SpawnDelay: 0
+  possibleRotations:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 60, z: 0}
+  - {x: 0, y: 120, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 240, z: 0}
+  - {x: 0, y: 300, z: 0}

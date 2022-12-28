@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
+using System.Security.Cryptography;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    public int InitialSpawnRate = 1;
-
-    [SerializeField] private float StartDelay = 1f;
+    public float InitialSpawnRate = 2;
+    public int obstacleAmount = 1;
+    
 
     private static string scoreText = "Score: ";
     private static string highText = "Highscore: ";
@@ -30,10 +33,17 @@ public class GameManager : MonoBehaviour
     public PlayerScore player;
 
     [SerializeField] private bool UseGameObjects = true;
-    public bool FirstCol = false;
-    
+
+    public bool GameStart = false;
+    private bool spawnFirstRoundOnlyOnce = true;
+
+    private int totCount;
+
+    [SerializeField] private List<Vector3> possibleRotations = new List<Vector3>();
+    private Vector3 obstacleExtraRotation = new Vector3(0, 60, 0);
+
     // Start is called before the first frame update
-    IEnumerator Start()
+    void Start()
     {
         if (!UseGameObjects)
         {
@@ -49,8 +59,7 @@ public class GameManager : MonoBehaviour
             scoresTextList[0].text = scoreText + "0";
             scoresTextList[1].text = highText + PlayerPrefs.GetInt("HighScore", 0);
             collectibleTextList[0].text = "0";
-            yield return new WaitForSeconds(StartDelay);
-            //Instantiate first round
+            collectibleTextList[1].text = "0";
         }
     }
 
@@ -63,21 +72,76 @@ public class GameManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt("HighScore", player.totalScore);
             }
-            if (UseGameObjects && FirstCol)
+            player.totalScore = (player.collectible1Count * collectible1.points) +
+                                (player.collectible2Count * collectible2.points);
+            scoresTextList[0].text = scoreText + player.totalScore.ToString();
+            scoresTextList[1].text = highText + PlayerPrefs.GetInt("HighScore", 0);
+            collectibleTextList[0].text = player.collectible1Count.ToString();
+            collectibleTextList[1].text = player.collectible2Count.ToString();
+            totCount = player.collectible1Count + player.collectible2Count;
+            
+            //Start spawning at increasing rate
+            
+            
+            if (GameStart && spawnFirstRoundOnlyOnce)
             {
-                player.totalScore = (player.collectible1Count * collectible1.points) +
-                                    (player.collectible2Count * collectible2.points);
-                scoresTextList[0].text = scoreText + player.totalScore.ToString();
-                scoresTextList[1].text = highText + PlayerPrefs.GetInt("HighScore", 0);
-                //Start spawning at increasing rate
-                //Start increasing difficulty (add more obstacles)
+                spawnFirstRoundOnlyOnce = false;
+                InitiateFirstRound();
             }
         }
     }
 
-    private Vector3 RandRotation()
+    public void InitiateFirstRound()
     {
-        return new Vector3(0,Random.Range(0, 359),0) ;
+        GameObject go = InstatiateCollectible();
+        go.transform.Rotate(possibleRotations[Random.Range(0, 5)]);
+    }
+
+    public void InstantiateRound()
+    {
+        if (totCount == 5 || totCount == 10 || totCount == 15 || totCount == 20)
+        {
+            obstacleAmount++;
+        }
+        List<GameObject> goList = new List<GameObject>();
+        List<Vector3> rotList = new List<Vector3>();
+        foreach (var element in possibleRotations)
+        {
+            rotList.Add(element);
+        }
+        goList.Add(InstatiateCollectible());
+        for (int i = 0; i < obstacleAmount; i++)
+        {
+            goList.Add(Instantiate(CollectiblesArray[2].prefab, CollectiblesArray[2].prefab.transform.position,
+                quaternion.identity));
+        }
+
+        int index = 0;
+        foreach (var VARIABLE in goList)
+        {
+            Vector3 rot = rotList[Random.Range(0, rotList.Count+1)];
+
+            if (index > 0)
+            {
+                VARIABLE.transform.Rotate(rot-obstacleExtraRotation);
+                rotList.Remove(rot - obstacleExtraRotation);
+            }
+            else
+            {
+                VARIABLE.transform.Rotate(rot);
+            }
+            rotList.Remove(rot);
+            index++;
+        }
+        //instantiate an amount of obstacles increasing amount with time
+        //ensure obstacle and collectible can't be in same spot
+        //increase spawn rate
+    }
+
+    GameObject InstatiateCollectible()
+    {
+        GameObject prefab = CollectiblesArray[Random.Range(0, 2)].prefab;
+        return Instantiate(prefab, prefab.transform.position, Quaternion.identity );
     }
     public void StartGame()
     {

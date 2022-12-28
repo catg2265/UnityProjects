@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,22 +12,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 20f;
 
     private float MovementX;
-    // Start is called before the first frame update
-    void Start()
+
+    private GameManager gm;
+    
+    private void Start()
     {
-        
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 rotation = new Vector3(MovementX, 0, 0);
-        transform.Rotate(rotation * (speed * Time.deltaTime));
+        if (gm.GameStart)
+        {
+            Vector3 rotation = new Vector3(-MovementX, 0, 0);
+            transform.Rotate(rotation * (speed * Time.deltaTime));
+        }
     }
 
     void OnMove(InputValue movement)
     {
-        
         movementVector = movement.Get<Vector2>();
         MovementX = Mathf.RoundToInt(movementVector.x);
     }
