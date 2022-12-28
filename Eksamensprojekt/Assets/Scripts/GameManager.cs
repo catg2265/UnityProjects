@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 {
     public float InitialSpawnRate = 2;
     public int obstacleAmount = 1;
-    
+    public int rotindex;
 
     private static string scoreText = "Score: ";
     private static string highText = "Highscore: ";
@@ -113,18 +113,20 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < obstacleAmount; i++)
         {
             goList.Add(Instantiate(CollectiblesArray[2].prefab, CollectiblesArray[2].prefab.transform.position,
-                quaternion.identity));
+                Quaternion.identity));
         }
-
         int index = 0;
         foreach (var VARIABLE in goList)
         {
-            Vector3 rot = rotList[Random.Range(0, rotList.Count+1)];
-
+            if (rotList.Count > 0)
+            {
+                rotindex = Random.Range(0, rotList.Count - 1);
+            }
+            else { rotindex = 0;}
+            Vector3 rot = rotList[rotindex];
             if (index > 0)
             {
                 VARIABLE.transform.Rotate(rot-obstacleExtraRotation);
-                rotList.Remove(rot - obstacleExtraRotation);
             }
             else
             {
@@ -133,8 +135,6 @@ public class GameManager : MonoBehaviour
             rotList.Remove(rot);
             index++;
         }
-        //instantiate an amount of obstacles increasing amount with time
-        //ensure obstacle and collectible can't be in same spot
         //increase spawn rate
     }
 
