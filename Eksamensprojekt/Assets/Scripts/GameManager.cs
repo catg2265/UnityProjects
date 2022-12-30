@@ -80,19 +80,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (UseGameObjects && GameStart)
+        if (UseGameObjects)
         { 
             PlayerScore();
             totCount = player.collectible1Count + player.collectible2Count;
-            Spawner();
-            timer += Time.deltaTime;
-            //Start spawning at increasing rate
-            
-            
-            if (GameStart && spawnFirstRoundOnlyOnce)
+            if (GameStart)
             {
-                spawnFirstRoundOnlyOnce = false;
-                InitiateFirstRound();
+                Spawner();
+                timer += Time.deltaTime;
+                if (spawnFirstRoundOnlyOnce)
+                {
+                    spawnFirstRoundOnlyOnce = false;
+                    InitiateFirstRound();
+                }
             }
         }
     }
@@ -168,12 +168,13 @@ public class GameManager : MonoBehaviour
     }
     public void EndScreen()
     {
+        PlayerScore();
         GameStart = false;
         EndScreenActivate = true;
         foreach (var o in GameObject.FindGameObjectsWithTag("Spawnable")) Destroy(o);
         EndScreenObject.SetActive(true);
         EndScreenTextList[1].text = "Your score was: " + player.totalScore.ToString();
-        if (player.totalScore == PlayerPrefs.GetInt("Highscore"))
+        if (player.totalScore == PlayerPrefs.GetInt("HighScore", 0))
         {
             EndScreenTextList[0].enabled = true;
         }

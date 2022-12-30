@@ -9,6 +9,10 @@ public class EndObjects : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Spawnable"))
         {
+            if (other.gameObject.GetComponent<DetectColCollectible>().CollectibleType < 2)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().EndScreen();
+            }
             Destroy(other.gameObject);
         }
     }

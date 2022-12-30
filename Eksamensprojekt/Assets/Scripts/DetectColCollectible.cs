@@ -7,7 +7,7 @@ using UnityEngine;
 public class DetectColCollectible : MonoBehaviour
 {
     private GameManager gm;
-    [SerializeField] private int CollectibleType = 0;
+    public int CollectibleType = 0;
     private float speed = 100f;
     
     private void Start()
