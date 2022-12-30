@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941a2bf30ecd6524c9c2b1d8a9dbe748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialSpawnRate: 1
+  InitialSpawnRate: 2
+  obstacleAmount: 1
+  rotindex: 0
+  roundsAmount: 1
+  spawnTrigger: 0
   scoresTextList: []
   collectibleTextList: []
   Obstacle: {fileID: 0}
@@ -52,7 +56,6 @@ MonoBehaviour:
   Collectible2: {fileID: 0}
   UseGameObjects: 1
   GameStart: 0
-  SpawnDelay: 0
   possibleRotations:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 60, z: 0}

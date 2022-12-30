@@ -9,7 +9,6 @@ public class DetectColCollectible : MonoBehaviour
     private GameManager gm;
     [SerializeField] private int CollectibleType = 0;
     private float speed = 100f;
-    public bool canMove = true;
     
     private void Start()
     {
@@ -22,37 +21,28 @@ public class DetectColCollectible : MonoBehaviour
             if (CollectibleType == 0)
             {
                 gm.player.collectible1Count++;
-                canMove = false;
-                foreach (var o in GameObject.FindGameObjectsWithTag("Spawnable")) Destroy(o);
-                gm.InstantiateRound();
+                gm.spawnRate -= 0.1f;
+                Destroy(gameObject);
             }
             else if (CollectibleType == 1)
             {
                 gm.player.collectible2Count++;
-                canMove = false;
-                foreach (var o in GameObject.FindGameObjectsWithTag("Spawnable")) Destroy(o);
-                gm.InstantiateRound();
+                gm.spawnRate -= 0.1f;
+                Destroy(gameObject);
             }
             else if (CollectibleType == 2)
             {
-                // end game
+                gm.EndScreen();
             }
         }
-
-        // if (other.gameObject.CompareTag("Spawnable"))
-        // {
-        //     other.gameObject.transform.Rotate(new Vector3(0,60,0));
-        // }
     }
 
     private void Update()
     {
-        if (canMove)
-        {
-            transform.position += new Vector3(0, 1, 0) * (speed * Time.deltaTime);
-        }
-       
+        transform.position += new Vector3(0, 1, 0) * (speed * Time.deltaTime);
     }
+
+    
 }
 
 
