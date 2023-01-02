@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     private Vector3 obstacleExtraRotation = new Vector3(0, 60, 0);
     #endregion
 
-    #region ObjectsAndText
+    #region ObjectsAndTextFields
     [SerializeField] private List<TextMeshProUGUI> scoresTextList = new List<TextMeshProUGUI>();
     [SerializeField] private List<TextMeshProUGUI> collectibleTextList = new List<TextMeshProUGUI>();
     [SerializeField] private List<TextMeshProUGUI> EndScreenTextList = new List<TextMeshProUGUI>();
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Collectible1;
     [SerializeField] private GameObject Collectible2;
     [SerializeField] private GameObject EndScreenObject;
+
+    [SerializeField] private AudioSource music;
     #endregion
 
     #region ClassValues
@@ -62,6 +65,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            music.Play();
             collectible1 = new Collectibles(Collectible1, 500);
             collectible2 = new Collectibles(Collectible2, 1000);
             obstacle = new Collectibles(Obstacle, 0);
